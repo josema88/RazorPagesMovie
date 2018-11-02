@@ -33,7 +33,16 @@ namespace RazorPagesMovie
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<MovieContext>(options => options.UseSqlite(Configuration.GetConnectionString("MovieContext")));
+            //Use SQL Database if in Azure, otherwise, use SQLite
+            if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
+                services.AddDbContext<MovieContext>(options =>
+                        options.UseSqlServer(Configuration.GetConnectionString("MovieContext")));
+            else
+                services.AddDbContext<MovieContext>(options => options.UseSqlite(Configuration.GetConnectionString("MovieContext")));
+            
+            //Create Migration Automatically
+            services.BuildServiceProvider().GetService<MovieContext>().Database.Migrate();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
