@@ -2,10 +2,11 @@
 Based on tutorial https://github.com/dotnet-presentations/aspnetcore-for-beginners
 
 ## Create APP
-
+```
 dotnet new razor -o RazorPagesMovie
 cd RazorPagesMovie
 dotnet run
+```
 
 ### Add a folder named Models
 ### Add a class to Models folder named Movie.cs
